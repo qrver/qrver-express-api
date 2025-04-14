@@ -6,3 +6,4 @@ uploads/*
 # Файлы
 
 *.env
+.DS_Store
