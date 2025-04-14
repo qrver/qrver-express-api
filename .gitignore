@@ -1,0 +1,8 @@
+# Директории
+
+node_modules
+uploads/*
+
+# Файлы
+
+*.env
