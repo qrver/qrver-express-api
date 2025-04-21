@@ -1,5 +1,4 @@
 ARG NODE_VERSION=23
-ARG NODE_ENV=production
 
 FROM node:${NODE_VERSION}-alpine
 

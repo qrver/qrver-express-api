@@ -62,8 +62,8 @@ app.get('/auth/me', checkAuth, UserController.getMe);
 app.get('/posts', PostController.getAll);
 app.get('/posts/:id', PostController.getOne);
 app.post('/posts', checkAuth, postCreateValidation, ValidationErr, PostController.create);
-app.patch('/posts/:id', checkAuth, PostController.update);
-app.delete('/posts/:id', checkAuth, ValidationErr, PostController.remove);
+app.patch('/posts/:id', checkAuth, postCreateValidation, ValidationErr, PostController.update);
+app.delete('/posts/:id', checkAuth, PostController.remove);
 
 // Files
 
