@@ -67,11 +67,11 @@ app.delete('/posts/:id', checkAuth, PostController.remove);
 
 // Files
 
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(`${process.env.UPLOADS_DIR}`));
 
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
   res.json({
-    url: `/uploads/${req.file.originalname}`
+    url: `/${process.env.UPLOADS_DIR}/${req.file.originalname}`
   })
 });
 
