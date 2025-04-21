@@ -63,7 +63,7 @@ app.get('/posts', PostController.getAll);
 app.get('/posts/:id', PostController.getOne);
 app.post('/posts', checkAuth, postCreateValidation, ValidationErr, PostController.create);
 app.patch('/posts/:id', checkAuth, PostController.update);
-app.delete('/posts/:id', checkAuth, postCreateValidation, ValidationErr, PostController.remove);
+app.delete('/posts/:id', checkAuth, ValidationErr, PostController.remove);
 
 // Files
 
