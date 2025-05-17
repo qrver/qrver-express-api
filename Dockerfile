@@ -15,4 +15,7 @@ RUN mkdir -p uploads
 
 EXPOSE 4444
 
+HEALTHCHECK --interval=600s --timeout=10s --start-period=30s --retries=5 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:4444/ || exit 1
+
 CMD ["npm", "start"]

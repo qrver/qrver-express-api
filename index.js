@@ -3,21 +3,7 @@ import mongoose from 'mongoose';
 import multer from 'multer';
 import 'dotenv/config'
 
-import {
-  UserController,
-  PostController
-} from './controllers/index.js';
-
-import {
-  checkAuth,
-  ValidationErr
-} from './utils/index.js';
-
-import {
-  registerValidation,
-  loginValidation,
-  postCreateValidation
-} from './validations/verify.js';
+import * as src from './src/import.js';
 
 // Подключение к б/д
 
@@ -53,23 +39,23 @@ app.get('/', (req, res) => {
 
 // User
 
-app.post('/auth/login', loginValidation, ValidationErr, UserController.login);
-app.post('/auth/register', registerValidation, ValidationErr, UserController.register);
-app.get('/auth/me', checkAuth, UserController.getMe);
+app.post('/auth/login', src.loginValidation, src.ValidationErr, src.UserController.login);
+app.post('/auth/register', src.registerValidation, src.ValidationErr, src.UserController.register);
+app.get('/auth/me', src.checkAuth, src.UserController.getMe);
 
 // Posts
 
-app.get('/posts', PostController.getAll);
-app.get('/posts/:id', PostController.getOne);
-app.post('/posts', checkAuth, postCreateValidation, ValidationErr, PostController.create);
-app.patch('/posts/:id', checkAuth, postCreateValidation, ValidationErr, PostController.update);
-app.delete('/posts/:id', checkAuth, PostController.remove);
+app.get('/posts', src.PostController.getAll);
+app.get('/posts/:id', src.PostController.getOne);
+app.post('/posts', src.checkAuth, src.postCreateValidation, src.ValidationErr, src.PostController.create);
+app.patch('/posts/:id', src.checkAuth, src.postCreateValidation, src.ValidationErr, src.PostController.update);
+app.delete('/posts/:id', src.checkAuth, src.PostController.remove);
 
 // Files
 
 app.use('/uploads', express.static(`${process.env.UPLOADS_DIR}`));
 
-app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+app.post('/upload', src.checkAuth, upload.single('image'), (req, res) => {
   res.json({
     url: `/${process.env.UPLOADS_DIR}/${req.file.originalname}`
   })
@@ -84,3 +70,5 @@ app.listen(PORT, (err) => {
 
   console.log(`Сервер запущен на порту: ${PORT}`);
 });
+
+export default app;
