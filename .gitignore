@@ -2,8 +2,11 @@
 
 node_modules
 uploads/*
+package-lock.json
 
 # Файлы
 
 *.env
 .DS_Store
+.vscode
+.cursor
