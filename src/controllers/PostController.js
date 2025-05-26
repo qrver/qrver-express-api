@@ -1,4 +1,5 @@
 import PostModel from '../models/post.js';
+import { sendTelegramMessage } from '../utils/telegram.js';
 
 export const create = async (req, res) => {
   try {
@@ -11,6 +12,14 @@ export const create = async (req, res) => {
     });
 
     const post = await doc.save();
+
+    // Отправка уведомления в Telegram
+    try {
+      const user = req.userId;
+      await sendTelegramMessage(`📝 Новый пост: "${post.title}"\nАвтор: ${user}`);
+    } catch (e) {
+      console.error('Ошибка отправки уведомления в Telegram:', e);
+    }
 
     res.json(post);
   } catch (err) {
