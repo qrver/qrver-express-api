@@ -26,4 +26,4 @@ export async function sendTelegramMessage(message) {
   } catch (err) {
     console.error('Ошибка отправки в Telegram:', err);
   }
-} 
+};
