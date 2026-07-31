@@ -1,9 +1,15 @@
-# Директории
+# Зависимости и временные файлы
+node_modules/
+npm-debug.log*
 
-node_modules
+# Локальные секреты
+.env
+.env.*
+!.env.example
+
+# Загруженные пользователями файлы
 uploads/*
+!uploads/.gitkeep
 
-# Файлы
-
-*.env
+# Системные файлы
 .DS_Store

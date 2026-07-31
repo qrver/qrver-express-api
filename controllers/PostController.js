@@ -76,9 +76,9 @@ export const remove = async (req, res) => {
     );
 
     if (!doc) {
-      res.status(404).json({
+      return res.status(404).json({
         message: 'Статья не найдена'
-      })
+      });
     }
 
     return res.json({

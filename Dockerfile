@@ -1,17 +1,19 @@
-ARG NODE_VERSION=23
+FROM node:22-alpine
 
-FROM node:${NODE_VERSION}-alpine
+ENV NODE_ENV=production
 
 WORKDIR /app
 
-RUN apk update && apk upgrade
-
 COPY package*.json ./
-RUN npm install
+RUN npm ci --omit=dev --ignore-scripts \
+  && npm cache clean --force
 
 COPY . .
 
-RUN mkdir -p uploads
+RUN mkdir -p /app/uploads \
+  && chown -R node:node /app
+
+USER node
 
 EXPOSE 4444
 

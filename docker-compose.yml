@@ -1,0 +1,54 @@
+services:
+  api:
+    build:
+      context: .
+    environment:
+      PORT: 4444
+      MONGO_URI: mongodb://mongodb:27017/qrver_express
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env.local}
+      UPLOADS_DIR: /app/uploads
+    ports:
+      - "4444:4444"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - qrver-express-network
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:4444/health').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:8@sha256:e0ce8c35124d4a9f9785532d1f268f39e9728ffa1cb38f46fa482436424c4bd3
+    networks:
+      - qrver-express-network
+    volumes:
+      - mongodb-data:/data/db
+    healthcheck:
+      test:
+        - CMD
+        - mongosh
+        - --quiet
+        - --eval
+        - db.adminCommand('ping').ok
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+
+networks:
+  qrver-express-network:
+    name: qrver-express-network
+
+volumes:
+  mongodb-data:
+    name: qrver-express-mongodb-data
